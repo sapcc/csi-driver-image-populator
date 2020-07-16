@@ -20,7 +20,7 @@ import (
 	"flag"
 	"os"
 
-	"github.com/kubernetes-csi/csi-driver-image-populator/pkg/image"
+	"github.com/sapcc/csi-driver-image-populator/pkg/image"
 )
 
 func init() {

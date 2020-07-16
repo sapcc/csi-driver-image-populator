@@ -16,3 +16,4 @@ CMDS=imagepopulatorplugin
 all: build
 
 include release-tools/build.make
+REGISTRY_NAME=keppel.eu-nl-1.cloud.sap/cnmp/k8scsi
