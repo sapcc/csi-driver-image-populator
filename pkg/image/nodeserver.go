@@ -134,10 +134,17 @@ func (ns *nodeServer) NodeUnpublishVolume(ctx context.Context, req *csi.NodeUnpu
 	targetPath := req.GetTargetPath()
 	volumeId := req.GetVolumeId()
 
-	// Unmounting the image
-	err := mount.New("").Unmount(req.GetTargetPath())
+	// Check that target path is actually still a MountPoint
+	notMnt, err := mount.New("").IsLikelyNotMountPoint(targetPath)
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
+	}
+	if !notMnt {
+		// Unmounting the image
+		err := mount.New("").Unmount(req.GetTargetPath())
+		if err != nil {
+			return nil, status.Error(codes.Internal, err.Error())
+		}
 	}
 	glog.V(4).Infof("image: volume %s/%s has been unmounted.", targetPath, volumeId)
 
